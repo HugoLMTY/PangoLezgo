@@ -14,11 +14,10 @@ const db = mongoose.connection
 db.on('error', error => console.log(error))
 db.once('open', () => console.log('DB Connectée'))
 
-
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-app.use('/users', userRouter)
-app.use('/friends', friendsRouter)
+app.use('/api/user', userRouter)
+app.use('/api/friend', friendsRouter)
 
 app.listen(process.env.PORT || 3000)

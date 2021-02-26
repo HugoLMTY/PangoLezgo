@@ -3,17 +3,11 @@ const user = require('../models/user')
 const friends = require('../models/friends')
 const router = express.Router()
 
-/////////////////////////////////////      COOKIES   18/02 - 19h      //////////////////////////////////////////
-// Problème -> récupérer l'ID de l'user connecté                                                              //
-// Solution (Problème) -> Cookies / Récuperer les cookies de angular à node ??? req.cookie['uid'] ????        //
-// Problème -> Envoyer les cookies à travers node -> angular                                                  //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 router.post('/sendInvite', (req, res) => {
     const _uid = req.cookies['uid']

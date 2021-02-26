@@ -2,15 +2,14 @@ const express = require('express')
 const user = require('../models/user')
 const router = express.Router()
 const bcrypt = require('bcrypt');
-const { findByIdAndUpdate, findById } = require('../models/user');
-const friendRouter = require('./friends')
 
 
 router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.header("Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 router.get('/all', (req, res) => {
     const _uid = req.cookies['uid']
@@ -22,7 +21,6 @@ router.get('/all', (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    console.log('back ok')
     if (!req.body.uname || !req.body.pwd)
         res.send('renseignez tous les champs')
 
@@ -32,14 +30,15 @@ router.post('/login', async (req, res) => {
     const loginList = await user.findOne(loginOptions)
 
     if (!loginList) {
-        console.log('no 1')
+        res.send('wrong uname')
     } else {
         if (req.body.pwd != loginList.pwd)
-            console.log('no 2')
+            res.send('wrong pwd')
         else{
             res.cookie('uid',   loginList._id,      { expires: new Date(2099, 0,1)})
             res.cookie('uname', loginList.uname,    { expires: new Date(2099, 0,1)})
             res.cookie('name',  loginList.name,     { expires: new Date(2099, 0,1)})
+            res.send(loginList)
         }
     }
 })
