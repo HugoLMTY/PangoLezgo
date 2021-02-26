@@ -3,7 +3,7 @@ const user = require('../models/user')
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const { findByIdAndUpdate, findById } = require('../models/user');
-const friendRouter = require('./friends_server')
+const friendRouter = require('./friends')
 
 
 router.use(function(req, res, next) {
