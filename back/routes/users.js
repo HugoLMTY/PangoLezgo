@@ -1,8 +1,7 @@
 const express = require('express')
-const user = require('../models/user')
 const router = express.Router()
+const user = require('../models/user')
 const bcrypt = require('bcrypt');
-
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");

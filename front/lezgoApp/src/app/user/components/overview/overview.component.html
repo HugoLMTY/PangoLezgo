@@ -1,3 +1,24 @@
-<div *ngFor="let user of userList">
-    {{ user.name }}
+<div *ngFor="let user of userList" class="row">
+    
+    <div class="col">
+        <p> {{ user.name | titlecase }} / {{ user.age }} ans</p>
+    </div>
+
+        <!-- ////////////////  -->
+        
+    <div class="col">
+        <div class="row">
+            <p class="col-4">{{ user.family }}</p>
+            <p class="col-4">{{ user.race }}</p>
+            <p class="col-4">{{ user.feeding }}</p>
+        </div>
+    </div>
+
+        <!-- ////////////////  -->
+        
+    <div class="col-3">
+        <button class="btn btn-context">
+            Ajouter
+        </button>
+    </div>
 </div>

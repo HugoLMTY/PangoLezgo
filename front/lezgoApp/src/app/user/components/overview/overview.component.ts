@@ -10,13 +10,14 @@ export class OverviewComponent implements OnInit {
 
   constructor(private userServices: UsersService) { }
 
-  userList: any = []
+  userList: any
+
   ngOnInit(): void {
     this.userServices.all().subscribe(
       result => {
+        console.log(result)
         userList: result
       }
     )
   }
-
 }

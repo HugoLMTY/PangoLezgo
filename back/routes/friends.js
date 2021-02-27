@@ -1,13 +1,12 @@
 const express = require('express')
+const router = express.Router()
 const user = require('../models/user')
 const friends = require('../models/friends')
-const router = express.Router()
 
-router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+router.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "localhost:4200");
     next();
-});
+ });
 
 router.post('/sendInvite', (req, res) => {
     const _uid = req.cookies['uid']

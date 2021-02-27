@@ -1,10 +1,15 @@
+const cors = require('cors')
 const express = require('express')
 const app = express()
+
+app.use(cors())
+
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
 const userRouter = require('./routes/users')
 const friendsRouter = require('./routes/friends')
+
 
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/lezgo', { useNewUrlParser: true})
@@ -17,7 +22,7 @@ db.once('open', () => console.log('DB Connectée'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-app.use('/api/user', userRouter)
-app.use('/api/friend', friendsRouter)
+app.use('/user', userRouter)
+app.use('/friend', friendsRouter)
 
 app.listen(process.env.PORT || 3000)

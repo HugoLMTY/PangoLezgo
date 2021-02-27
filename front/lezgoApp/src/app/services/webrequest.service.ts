@@ -7,28 +7,15 @@ import { map } from 'rxjs/operators'
 })
 export class WebrequestService {
 
-  readonly url = 'localhost:3000/api/'
+  readonly url = 'http://localhost:3000/'
 
   constructor(private http: HttpClient) { }
 
   get(uri: string) {
-    return this.http.get(this.url + uri).pipe(
-      map(
-        (usersInfos) => {
-          console.log(usersInfos)
-        }
-      )
-    )
+    return this.http.get(this.url + uri)
   }
 
   post(uri: string, payload: Object) {
-    return this.http.post(this.url + uri, payload).pipe(
-      map(
-        (usersInfos) => {
-          console.log(usersInfos)
-        }
-      )
-    )
+    return this.http.post(this.url + uri, payload)
   }
-
 }
