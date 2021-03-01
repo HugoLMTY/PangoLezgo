@@ -18,7 +18,9 @@ export class ProfilComponent implements OnInit {
     this.userServices.getAuthState().subscribe(
       (state) => {
         if (!state)
-          this.router.navigate(['/login'])
+          this.router.navigate(['/login']).then(() => {
+            window.location.reload();
+          });
       }  
     )
 
@@ -30,9 +32,9 @@ export class ProfilComponent implements OnInit {
   }
 
   logout() {
-    this.userServices.logout().subscribe(
-      (result) => console.log(result)
-    )
-    this.router.navigate(['/login'])
+    this.userServices.logout().subscribe()
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 }

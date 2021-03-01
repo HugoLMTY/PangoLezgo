@@ -9,8 +9,16 @@ export class FriendsService {
 
   constructor(private wrs: WebrequestService) { }
 
-  allById(uid: string) {
-    return this.wrs.post('friends/accptedList', uid)
+  acceptedList() {
+    return this.wrs.get('user/acceptedList')
+  }
+
+  receivedList() {
+    return this.wrs.get('user/receivedList')
+  }
+
+  sentList() {
+    return this.wrs.get('user/sentList')
   }
 
 }

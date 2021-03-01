@@ -15,13 +15,15 @@ export class RegisterComponent implements OnInit {
     this.userServices.getAuthState().subscribe(
       (state) => {
         if (state)
-          this.router.navigate(['/profil'])
+          this.router.navigate(['/profil']).then(() => {
+            window.location.reload();
+          });
       }  
     )
   }
 
   register(formInfos: any) {
-    console.log(formInfos)
+    this.userServices.register(formInfos.name, formInfos.uname, formInfos.age, formInfos.pwd, formInfos.family, formInfos.race, formInfos.feeding).subscribe()
   }
 
 }

@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const user = require('../models/user')
+const friend = require('../models/friends')
 const bcrypt = require('bcrypt')
+const friendRouter = require('./friends')
 
 var isAuth = Boolean
 var _uid =  String
-var _uname = String
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
@@ -17,7 +18,6 @@ router.use(function(req, res, next) {
 
 router.get('/isAuth', (req, res) => {
     // const _uid = req.cookies['uid']
-    console.log(_uid)
     if (isAuth == true) 
         res.send(true)
     else
@@ -29,7 +29,6 @@ router.get('/currentUser', async (req, res) => {
     try {
         await user.find({_id: _uid }).then(
             (userInfos) => {
-                console.log(userInfos)
                 res.send(userInfos)
             } 
         )
@@ -39,12 +38,14 @@ router.get('/currentUser', async (req, res) => {
     
 })
 
-router.get('/all', (req, res) => {
-    // const _uid = req.cookies['uid']
-        user.find({_id: { $ne: _uid }}).then(
-            (userList) => {
-                res.send(userList)
-        })
+router.get('/countRequests', (req, res) => {
+    try {
+        friend.find({ user2: _uid, state: 'sent'}).then(
+            (result) => res.send(result)
+        )
+    } catch {
+        res.send({})
+    }
 })
 
 
@@ -54,21 +55,13 @@ router.post('/login', async (req, res) => {
 
     try {
         if (!loginList) {
-            console.log('user inconnu')
             res.send({})
         } else {
             if (req.body.pwd != loginList.pwd){
-                console.log('mdp erroné')
                 res.send({})
             } else {
-                console.log(loginList._id)
                 _uid = loginList._id
-                console.log('uid')
-                _uname = loginList.name
-                console.log('uname')
                 isAuth = true
-                console.log('auth')
-                console.log(loginList)
                 res.send(loginList)
                 // res.cookie(
                 //     'uid', id, 
@@ -94,7 +87,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/createAccount', async (req, res) => {
     const r = req.body
-    if (!r.uname || !r.pwd || !r.pwdConfirm || !r.name || !r.age ||  !r.family || !r.race || !r.feeding)
+    if (!r.uname || !r.pwd || !r.name || !r.age ||  !r.family || !r.race || !r.feeding)
         res.send('remplissez tous les champs')
 
     const hash = await bcrypt.hash(r.pwd, 10) 
@@ -171,7 +164,6 @@ router.delete('/deleteAccount', (req, res) => {
 router.get('/logout', (req, res) => {
     isAuth = false
     _uid = new String("")
-    _uname = new String("")
     res.send('ok')
     // res.clearCookie('uid')
     // res.clearCookie('name')
@@ -179,6 +171,155 @@ router.get('/logout', (req, res) => {
 })
 
 
+
+
+
+router.get('/all', async (req, res) => {
+    // const _uid = req.cookies['uid']
+    const acceptedList = await friend.find({
+        user1: _uid,
+        state: 'accepted'
+    })
+    const _acceptedList = await friend.find({
+        user2: _uid,
+        state: 'accepted'
+    })
+    const sentList = await friend.find({ 
+        user1: _uid,
+        state: 'sent'
+    })
+    const receivedList = await friend.find({ 
+        user2: _uid,
+        state: 'sent'
+    })
+
+    let userIDList = []
+    sentList.forEach(element => {
+        userIDList.push(element.user2)
+    })
+    receivedList.forEach(element => {
+        userIDList.push(element.user1)
+    })
+    acceptedList.forEach(element => {
+        userIDList.push(element.user1)
+    })
+    _acceptedList.forEach(element => {
+        userIDList.push(element.user1)
+    })
+    
+
+    user.find({ _id: {
+        $nin: userIDList,
+        $ne: _uid
+    }}).then(
+        (userList) => {
+            res.send(userList)
+    })
+})
+
+router.get('/receivedList', async (req, res) => {
+    let userListID = []
+
+    const receivedList = await friend.find({
+        user2: _uid,
+        state: 'sent'
+    })
+
+    receivedList.forEach(element => {
+        userListID.push(element.user1)
+    })
+
+    user.find({
+        _id: {
+            $in: userListID
+        }
+    }).then(
+        (result) => res.send(result)
+    )
+})
+
+router.get('/sentList', async (req, res) => {
+    let userListID = []
+
+    const sentList = await friend.find({
+        user1: _uid,
+        state: 'sent'
+    })
+
+    sentList.forEach(element => {
+        userListID.push(element.user2)
+    })
+
+    user.find({
+        _id: {
+            $in: userListID
+        }
+    }).then(
+        (result) => res.send(result)
+    )
+})
+
+router.get('/acceptedList', async (req, res) => {
+    let userListID = []
+    
+    const acceptedList = await friend.find({
+        user1: _uid,
+        state: 'accepted'
+    })
+    const _acceptedList = await friend.find({
+        user2: _uid,
+        state: 'accepted'
+    })
+
+    acceptedList.forEach(element => {
+        userListID.push(element.user2)
+    })
+    _acceptedList.forEach(element => {
+        userListID.push(element.user1)
+    })
+
+    user.find({
+        _id: {
+            $in: userListID
+        }
+    }).then(
+        (result) => { res.send(result) } 
+    )
+})
+
+
+// router.get('/acceptedList', async (req, res) => {
+//     // const _uid = req.cookies['uid']
+
+//     try {
+//         const friendsAcceptedById = await friends.find({ user1: _uid, state: 'accepted' })
+//         const _friendsAcceptedById = await friends.find({ user2: _uid, state: 'accepted' })
+//     } catch {
+//         console.log('err')
+//     }
+    
+//     console.log(_uid)
+//     console.log(friendsAcceptedById)
+//     console.log(_friendsAcceptedById)
+
+//     let idAcceptedList = []
+//     friendsAcceptedById.forEach(element => {
+//         idAcceptedList.push(element.user2)
+//     });
+//     _friendsAcceptedById.forEach(element => {
+//         idAcceptedList.push(element.user1)
+//     });
+//     const userAcceptedList = await user.find({ _id: { $in: idAcceptedList } })
+    
+//     try {
+//         if (userAcceptedList.length < 1) 
+//             res.send({})
+//         else
+//             res.send(userAcceptedList)
+//     } catch {
+//         res.send({})
+//     }
+// })
 
 
 module.exports = router

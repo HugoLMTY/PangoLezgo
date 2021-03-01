@@ -18,8 +18,16 @@ export class UsersService {
     return this.wrs.get('user/currentUser')
   }
 
+  countRequests() {
+    return this.wrs.get('user/countRequests')
+  }
+
   login(uname: string, pwd: string) {
     return this.wrs.post('user/login', {uname, pwd})
+  }
+
+  register(name: string, uname: string, age: number, pwd: string, family: string, race: string, feeding: string) {
+    return this.wrs.post('user/register', {name, uname, age, pwd, family, race, feeding})
   }
 
   all() {

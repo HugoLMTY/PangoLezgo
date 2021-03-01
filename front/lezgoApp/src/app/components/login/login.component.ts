@@ -15,7 +15,9 @@ export class LoginComponent implements OnInit {
     this.userServices.getAuthState().subscribe(
       (state) => {
         if (state)
-          this.router.navigate(['/profil'])
+          this.router.navigate(['/profil']).then(() => {
+            window.location.reload();
+          });
       }  
     )
   }
@@ -26,7 +28,9 @@ export class LoginComponent implements OnInit {
     } else {
       this.userServices.login(formInfos.uname, formInfos.pwd).subscribe(
         (result: any) => { 
-          this.router.navigate(['/profil'])
+          this.router.navigate(['/profil']).then(() => {
+            window.location.reload();
+          });
         }
       )
     }

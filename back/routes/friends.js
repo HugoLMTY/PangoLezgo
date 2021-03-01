@@ -2,14 +2,17 @@ const express = require('express')
 const router = express.Router()
 const user = require('../models/user')
 const friends = require('../models/friends')
+const userRouter = require('./users')
 
-router.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "localhost:4200");
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.header("Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
- });
+});
 
 router.post('/sendInvite', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const targetID = req.body.targetID
 
     if (!targetID || !_uid)
@@ -26,7 +29,7 @@ router.post('/sendInvite', (req, res) => {
 })
 
 router.post('/answerInvite', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const action = req.body.userAction
     const received = req.body.receivedID
 
@@ -52,7 +55,7 @@ router.post('/answerInvite', async (req, res) => {
 })
 
 router.post('/acceptInvite', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const action = req.body.userAction
     const received = req.body.receivedID
 
@@ -67,7 +70,7 @@ router.post('/acceptInvite', async (req, res) => {
 })
 
 router.post('/rejectInvite', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const action = req.body.userAction
     const received = req.body.receivedID
 
@@ -81,7 +84,7 @@ router.post('/rejectInvite', async (req, res) => {
 })
 
 router.post('/cancelInvite', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const targetID = req.body.targetID
 
     friends.findOneAndDelete({
@@ -93,7 +96,7 @@ router.post('/cancelInvite', (req, res) => {
 })
 
 router.post('/deleteFriend', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const targetID = req.body.targetID
 
     friends.findOne({
@@ -115,7 +118,7 @@ router.post('/deleteFriend', (req, res) => {
 })
 
 router.get('/sentList', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const friendsSentById = await friends.find({ user1: _uid, state: 'sent' })
 
     let idSentList = []
@@ -134,7 +137,7 @@ router.get('/sentList', async (req, res) => {
 })
 
 router.get('/receivedList', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const friendsReceived = await friends.find({ user2: _uid, state: 'sent' })
 
     let idReceivedList = []
@@ -148,13 +151,16 @@ router.get('/receivedList', async (req, res) => {
 })
 
 router.get('/acceptedList', async (req, res) => {
-    const _uid = req.cookies['uid']
-    if (!_uid)
-        res.send('merci de remplir les champs')
-    
+    // const _uid = req.cookies['uid']
+    const _uid = userRouter._uid
+
     const friendsAcceptedById = await friends.find({ user1: _uid, state: 'accepted' })
     const _friendsAcceptedById = await friends.find({ user2: _uid, state: 'accepted' })
     
+    console.log(_uid)
+    console.log(friendsAcceptedById)
+    console.log(_friendsAcceptedById)
+
     let idAcceptedList = []
     friendsAcceptedById.forEach(element => {
         idAcceptedList.push(element.user2)
@@ -162,27 +168,20 @@ router.get('/acceptedList', async (req, res) => {
     _friendsAcceptedById.forEach(element => {
         idAcceptedList.push(element.user1)
     });
-
     const userAcceptedList = await user.find({ _id: { $in: idAcceptedList } })
-
-    if (userAcceptedList.length < 1) 
-        res.send('Aucun ami')
-    else
-        res.send(userAcceptedList)
-
-    // const userList = await user.find({
-    //     $and: [
-    //         { _id: { $nin: idSentList }},
-    //         { _id: { $nin: idAcceptedList }},
-    //         { _id: { $nin: idReceivedList }},
-    //         { _id: {$ne: _uid}} 
-    //     ]
-    // })
-
+    
+    try {
+        if (userAcceptedList.length < 1) 
+            res.send({})
+        else
+            res.send(userAcceptedList)
+    } catch {
+        res.send({})
+    }
 })
 
 router.get('/all', async (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const userList = []
     const newList = await user.find({}).then(
         (list) => {
