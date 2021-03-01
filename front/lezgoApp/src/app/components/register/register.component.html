@@ -1,1 +1,75 @@
-<p>register works!</p>
+<h1 class="title-context">S'inscrire</h1>
+
+<div class="container d-flex justify-content-center">   
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm.value)" class="row w-50 justify-content-center">
+
+        <div class="form-floating col-3 m-2">
+            <input type="text" class="form-control" 
+            required
+            ngModel="uname" 
+            placeholder="Votre pseudo">    
+            <label for="registerUName">Pseudo</label>
+        </div>
+
+        <div class="form-floating col-3 m-2">
+            <input type="text" class="form-control" 
+            required
+            ngModel="name" 
+            placeholder="Votre nom">    
+            <label for="registerName">Nom</label>
+        </div>
+
+        <div class="form-floating col-3 m-2">
+            <input type="number" class="form-control" 
+            required
+            ngModel="age" 
+            placeholder="Age">
+            <label for="registerAge">Age</label>
+        </div>
+
+        <div class="form-floating col-5 m-2">
+            <input type="password" class="form-control" 
+            required
+            ngModel="pwd" 
+            placeholder="*******">    
+            <label for="registerPwd">Mot de passe</label>
+        </div>
+
+        <div class="form-floating col-5 m-2">
+            <input type="password" class="form-control" 
+            required
+            ngModel="pwdconfirm" 
+            placeholder="*******">    
+            <label for="registerPwdConfirm">Confirmation</label>
+        </div>
+
+        <div class="form-floating col-3 m-2">
+            <input type="text" class="form-control" 
+            required
+            ngModel="family" 
+            placeholder="Famille">
+            <label for="registerFamily">Famille</label>
+        </div>
+
+        <div class="form-floating col-3 m-2">
+            <input type="text" class="form-control" 
+            required
+            ngModel="race" 
+            placeholder="Race">
+            <label for="registerRace">Race</label>
+        </div>
+
+        <div class="form-floating col-3 m-2">
+            <input type="text" class="form-control" 
+            required
+            ngModel="feeding" 
+            placeholder="Alimentation">
+            <label for="registerRace">Alimentation</label>
+        </div>
+
+        <div class="col-10 row w-50 mx-auto mt-2">
+            <button class="btn btn-context col m-2">S'inscrire</button>
+            <button class="btn btn-outline-secondary col m-2" routerLink="/register">Se connecter</button>
+        </div>
+    </form>
+</div>

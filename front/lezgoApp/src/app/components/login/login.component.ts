@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -8,17 +9,30 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userServices: UsersService) { }
+  constructor(private userServices: UsersService, private router: Router) { }
 
   ngOnInit(): void {
+    this.userServices.getAuthState().subscribe(
+      (state) => {
+        if (state)
+          this.router.navigate(['/profil'])
+      }  
+    )
   }
 
-  login() {
-    this.userServices.login('human', 'adm').subscribe(
-      (result: any) => {
-        console.log(result)
-      }
-    )
+  login(formInfos: any) {
+    console.log(formInfos)
+    if (formInfos.uname == "" || formInfos.pwd == "" ){
+      console.log('no')
+    } else {
+      this.userServices.login(formInfos.uname, formInfos.pwd).subscribe(
+        (result) => {
+          if (result != {}) {
+            console.log(result)
+          }
+        }
+      )
+    }
   }
 
 }

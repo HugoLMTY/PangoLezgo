@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 import { OverviewComponent } from './components/overview/overview.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @NgModule({
-  declarations: [OverviewComponent],
   imports: [
     CommonModule,
     UserRoutingModule

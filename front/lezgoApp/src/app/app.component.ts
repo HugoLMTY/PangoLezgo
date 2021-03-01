@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UsersService } from './services/users/users.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  constructor(private userService:UsersService) { }
+  isAuth: any
+  ngOnInit(): void {
+    this.userService.getAuthState().subscribe(
+      (result) => this.isAuth = result
+    )
+  }
+
   title = 'lezgoApp';
 }

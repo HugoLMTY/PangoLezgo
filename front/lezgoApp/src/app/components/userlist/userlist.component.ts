@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: 'app-userlist',
+  templateUrl: './userlist.component.html',
+  styleUrls: ['./userlist.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class UserlistComponent implements OnInit {
 
   constructor(private userServices: UsersService) { }
 
@@ -19,4 +19,5 @@ export class OverviewComponent implements OnInit {
         console.log(result)
       })
   }
+
 }

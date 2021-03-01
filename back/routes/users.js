@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const user = require('../models/user')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
@@ -9,6 +9,23 @@ router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+
+router.get('/isAuth', (req, res) => {
+    const _uid = req.cookies['uid']
+    if (_uid != undefined) 
+        res.send(true)
+    else
+        res.send(false)
+})
+
+router.get('/currentUser', async (req, res) => {
+    const _uid = req.cookies['uid']
+
+    user.find({_id: _uid }).then(
+        (userInfos) => res.send(userInfos)
+    )
+})
 
 router.get('/all', (req, res) => {
     const _uid = req.cookies['uid']
@@ -20,24 +37,36 @@ router.get('/all', (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    if (!req.body.uname || !req.body.pwd)
-        res.send('renseignez tous les champs')
-
-    let loginOptions = {
-        uname: new RegExp(req.body.uname, 'i')
-    }
+    let loginOptions = { uname: new RegExp(req.body.uname, 'i') }
+    let no = {}
     const loginList = await user.findOne(loginOptions)
 
+    const {id, name, uname, pwd} = loginList
+
     if (!loginList) {
-        res.send('wrong uname')
+        res.send(no)
     } else {
-        if (req.body.pwd != loginList.pwd)
-            res.send('wrong pwd')
+        if (req.body.pwd != pwd)
+            res.send(no)
         else{
-            res.cookie('uid',   loginList._id,      { expires: new Date(2099, 0,1)})
-            res.cookie('uname', loginList.uname,    { expires: new Date(2099, 0,1)})
-            res.cookie('name',  loginList.name,     { expires: new Date(2099, 0,1)})
-            res.send(loginList)
+            res.cookie(
+                'uid', id, 
+                { 
+                    expires: new Date(2099, 0,1), 
+                    domain: 'localhost:4200'
+                }).cookie(
+                'uname', uname, 
+                { 
+                    expires: new Date(2099, 0,1), 
+                    domain: 'localhost:4200'
+                }).cookie(
+                'name',  name, 
+                { 
+                    expires: new Date(2099, 0,1), 
+                    domain: 'localhost:4200'
+                }).send(
+                loginList
+            )
         }
     }
 })

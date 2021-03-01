@@ -1,2 +1,27 @@
-<p>login works!</p>
-<button (click)="login()">login</button>
+<h1 class="title-context">Se connecter</h1>
+
+<div class="container d-flex justify-content-center">   
+    <form #loginForm="ngForm" (ngSubmit)='login(loginForm.value)' class="row w-50">
+
+        <div class="form-floating col-6">
+            <input type="text" class="form-control" 
+            required
+            ngModel name="uname"
+            placeholder="Votre pseudo">    
+            <label for="loginName">Pseudo</label>
+        </div>
+
+        <div class="form-floating col-6">
+            <input type="password" class="form-control"
+            required
+            ngModel name="pwd"
+            placeholder="*******">    
+            <label for="loginPwd">Mot de passe</label>
+        </div>
+
+        <div class="col-10 row w-50 mx-auto mt-2">
+            <button class="btn btn-context col m-2">Se connecter</button>
+            <button class="btn btn-outline-secondary col m-2" routerLink="/register">S'inscrire</button>
+        </div>
+    </form>
+</div>

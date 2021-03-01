@@ -9,12 +9,24 @@ import { WebrequestService } from '../webrequest.service';
 export class UsersService {
 
   constructor(private wrs: WebrequestService) { }                                 
-                                                                                                 
+         
+  getAuthState() {
+    return this.wrs.get('user/isAuth')
+  }
+
+  getCurrentUserInfos() {
+    return this.wrs.get('user/currentUser')
+  }
+
   login(uname: string, pwd: string) {
     return this.wrs.post('user/login', {uname, pwd})
   }
 
   all() {
     return this.wrs.get('user/all')
+  }
+
+  logout() {
+    this.wrs.get('user/logout')
   }
 }

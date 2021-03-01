@@ -1,5 +1,5 @@
-<div class="container row mx-auto">
-    <div *ngFor="let user of userList" class="row">
+<div class="container row justify-content-center mx-auto">
+    <div *ngFor="let user of userList" class="row m-2 userlistHolder">
         <div class="col">
             <p> {{ user.name }} / {{ user.age }} ans</p>
         </div>
@@ -14,8 +14,8 @@
             </div>
         </div>
 
-                <!-- ////////////////  -->
-                
+            <!-- ////////////////  -->
+
         <div class="col">
             <button class="btn btn-context">
                 Ajouter
