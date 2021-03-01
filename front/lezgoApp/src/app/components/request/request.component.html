@@ -4,7 +4,7 @@
     <form #removeForm=ngForm *ngFor="let user of friendList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} </p>
+                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
@@ -24,7 +24,7 @@
     <form #removeForm=ngForm *ngFor="let user of receivedList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} </p>
+                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
@@ -46,7 +46,7 @@
     <form #removeForm=ngForm *ngFor="let user of sentList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} </p>
+                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>

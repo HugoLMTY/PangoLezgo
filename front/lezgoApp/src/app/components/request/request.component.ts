@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { empty } from 'rxjs';
 import { FriendsService } from 'src/app/services/friends/friends.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
@@ -34,7 +33,6 @@ export class RequestComponent implements OnInit {
 
     this.friendServices.acceptedList().subscribe(
       (result: any) => {
-        console.log(result)
         if (result == []) 
           this.emptyFriends = true
         else {
@@ -45,7 +43,6 @@ export class RequestComponent implements OnInit {
 
     this.friendServices.receivedList().subscribe(
       (result: any) => {
-        console.log(result)
         if (result == []) 
           this.emptyReceived = true
         else {
@@ -56,7 +53,6 @@ export class RequestComponent implements OnInit {
 
     this.friendServices.sentList().subscribe(
       (result: any) => {
-        console.log(result)
         if (result == []) 
           this.emptySent = true
         else {

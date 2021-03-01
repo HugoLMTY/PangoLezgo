@@ -10,7 +10,7 @@
           <a class="nav-link active" *ngIf='isAuth' routerLink='/user'>Pangolins</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf='isAuth' routerLink='/request'>Demandes</a>
+          <a class="nav-link" *ngIf='isAuth' routerLink='/request'>Demandes <span *ngIf="receivedCount != 0" style="color: black;" class="badge btn-context"> {{ receivedCount }} </span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf='isAuth' routerLink='/profil'>Profil</a>

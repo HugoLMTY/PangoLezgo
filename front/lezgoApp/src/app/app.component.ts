@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FriendsService } from './services/friends/friends.service';
 import { UsersService } from './services/users/users.service';
 
 @Component({
@@ -9,12 +10,19 @@ import { UsersService } from './services/users/users.service';
 
 export class AppComponent implements OnInit {
 
-  constructor(private userService:UsersService) { }
+  receivedCount: any
+  constructor(private userServices: UsersService, private friendServices: FriendsService) { }
   isAuth: any
   ngOnInit(): void {
-    this.userService.getAuthState().subscribe(
+    this.userServices.getAuthState().subscribe(
       (result) => this.isAuth = result
     )
+
+    this.friendServices.receivedList().subscribe(
+      (result: any) => {
+        console.log(result)
+        this.receivedCount = result.length
+    })
   }
 
   title = 'lezgoApp';
