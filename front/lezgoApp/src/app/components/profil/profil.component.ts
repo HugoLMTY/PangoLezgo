@@ -22,10 +22,17 @@ export class ProfilComponent implements OnInit {
       }  
     )
 
-
     this.userServices.getCurrentUserInfos().subscribe(
-      (infos) => this.user = infos
+      (infos) => {
+        this.user = infos
+      }
     )
   }
 
+  logout() {
+    this.userServices.logout().subscribe(
+      (result) => console.log(result)
+    )
+    this.router.navigate(['/login'])
+  }
 }

@@ -1,9 +1,9 @@
 <h1 class="title-context">Se connecter</h1>
 
 <div class="container d-flex justify-content-center">   
-    <form #loginForm="ngForm" (ngSubmit)='login(loginForm.value)' class="row w-50">
+    <form #loginForm="ngForm" (ngSubmit)='login(loginForm.value)' class="row w-50 justify-content-center">
 
-        <div class="form-floating col-6">
+        <div class="form-floating col-5">
             <input type="text" class="form-control" 
             required
             ngModel name="uname"
@@ -11,7 +11,7 @@
             <label for="loginName">Pseudo</label>
         </div>
 
-        <div class="form-floating col-6">
+        <div class="form-floating col-5">
             <input type="password" class="form-control"
             required
             ngModel name="pwd"
@@ -19,9 +19,9 @@
             <label for="loginPwd">Mot de passe</label>
         </div>
 
-        <div class="col-10 row w-50 mx-auto mt-2">
-            <button class="btn btn-context col m-2">Se connecter</button>
-            <button class="btn btn-outline-secondary col m-2" routerLink="/register">S'inscrire</button>
+        <div class="col-12 row justify-content-center mx-auto mt-2">
+            <a class="btn btn-outline-secondary col-4 m-2" routerLink="/register">S'inscrire</a>
+            <button class="btn btn-context col-4 m-2">Se connecter</button>
         </div>
     </form>
 </div>

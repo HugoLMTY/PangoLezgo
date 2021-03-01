@@ -16,7 +16,6 @@ export class OverviewComponent implements OnInit {
     this.userServices.all().subscribe(
       (result) => {
         this.userList = result
-        console.log(result)
       })
   }
 }

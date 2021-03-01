@@ -3,6 +3,10 @@ const router = express.Router()
 const user = require('../models/user')
 const bcrypt = require('bcrypt')
 
+var isAuth = Boolean
+var _uid =  String
+var _uname = String
+
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.header("Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT");
@@ -12,23 +16,31 @@ router.use(function(req, res, next) {
 
 
 router.get('/isAuth', (req, res) => {
-    const _uid = req.cookies['uid']
-    if (_uid != undefined) 
+    // const _uid = req.cookies['uid']
+    console.log(_uid)
+    if (isAuth == true) 
         res.send(true)
     else
         res.send(false)
 })
 
 router.get('/currentUser', async (req, res) => {
-    const _uid = req.cookies['uid']
-
-    user.find({_id: _uid }).then(
-        (userInfos) => res.send(userInfos)
-    )
+    // const _uid = req.cookies['uid']
+    try {
+        await user.find({_id: _uid }).then(
+            (userInfos) => {
+                console.log(userInfos)
+                res.send(userInfos)
+            } 
+        )
+    } catch {
+        res.send({})
+    }
+    
 })
 
 router.get('/all', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
         user.find({_id: { $ne: _uid }}).then(
             (userList) => {
                 res.send(userList)
@@ -37,37 +49,46 @@ router.get('/all', (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    let loginOptions = { uname: new RegExp(req.body.uname, 'i') }
-    let no = {}
+    let loginOptions = { uname: new RegExp(req.body.uname, 'i') } 
     const loginList = await user.findOne(loginOptions)
 
-    const {id, name, uname, pwd} = loginList
-
-    if (!loginList) {
-        res.send(no)
-    } else {
-        if (req.body.pwd != pwd)
-            res.send(no)
-        else{
-            res.cookie(
-                'uid', id, 
-                { 
-                    expires: new Date(2099, 0,1), 
-                    domain: 'localhost:4200'
-                }).cookie(
-                'uname', uname, 
-                { 
-                    expires: new Date(2099, 0,1), 
-                    domain: 'localhost:4200'
-                }).cookie(
-                'name',  name, 
-                { 
-                    expires: new Date(2099, 0,1), 
-                    domain: 'localhost:4200'
-                }).send(
-                loginList
-            )
+    try {
+        if (!loginList) {
+            console.log('user inconnu')
+            res.send({})
+        } else {
+            if (req.body.pwd != loginList.pwd){
+                console.log('mdp erroné')
+                res.send({})
+            } else {
+                console.log(loginList._id)
+                _uid = loginList._id
+                console.log('uid')
+                _uname = loginList.name
+                console.log('uname')
+                isAuth = true
+                console.log('auth')
+                console.log(loginList)
+                res.send(loginList)
+                // res.cookie(
+                //     'uid', id, 
+                //     { 
+                //         expires: new Date(2099, 0,1)
+                //     }).cookie(
+                //     'uname', uname, 
+                //     { 
+                //         expires: new Date(2099, 0,1)
+                //     }).cookie(
+                //     'name',  name, 
+                //     { 
+                //         expires: new Date(2099, 0,1)
+                //     }).send(
+                //     loginList
+                // )
+            }
         }
+    } catch {
+        res.send({})
     }
 })
 
@@ -98,14 +119,13 @@ router.post('/createAccount', async (req, res) => {
             }).save().then( 
                 (newUser) => {
                     res.send(newUser)
-                })
+            })
         }
     }
 })
 
-
 router.get('/profil', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     user.find({ _id: _uid }).then(
         (infos) => {
             res.send(infos)
@@ -113,7 +133,7 @@ router.get('/profil', (req, res) => {
 })
 
 router.patch('/editAccount', (req, res) => {
-    const _uid = req.cookies['uid']
+    // const _uid = req.cookies['uid']
     const r = req.body
 
     const toUpdate = user.findById(_uid)
@@ -127,13 +147,12 @@ router.patch('/editAccount', (req, res) => {
     }
 
     user.updateOne(toUpdate, datas).then(
-        res.send('infos mise à jour')
+        res.send('infos mises à jour')
     )
 })
 
 router.delete('/deleteAccount', (req, res) => {
-    const _uid = req.cookies['uid']
-
+    // const _uid = req.cookies['uid']
     if (!_uid) 
         res.send('renseignez tous les champs')
     else {
@@ -143,7 +162,6 @@ router.delete('/deleteAccount', (req, res) => {
             res.send('ID erroné')    
         else {
             user.findOneAndDelete(toDelete._id).then(
-                console.log('ok'),
                 res.send('suppr')
             )
         }
@@ -151,10 +169,13 @@ router.delete('/deleteAccount', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    res.clearCookie('uid')
-    res.clearCookie('name')
-    res.clearCookie('uname')
-    res.send('offline')
+    isAuth = false
+    _uid = new String("")
+    _uname = new String("")
+    res.send('ok')
+    // res.clearCookie('uid')
+    // res.clearCookie('name')
+    // res.clearCookie('uname')
 })
 
 

@@ -1,4 +1,4 @@
-<div class="jumbotron container">
+<div *ngFor="let user of user" class="jumbotron container" id="profilHolder">
     <h1 class="display-4">
         Bienvenue, {{ user.name }}
     </h1>
@@ -7,6 +7,9 @@
         <span style="font-style: italic;">modifier vos informations</span>
         ,ou encore
         <span style="font-style: italic;">vous déconnecter</span>
-
     </p>
+
+    <button class="btn btn-danger" (click)="logout()">
+        Se déconnecter
+    </button>
 </div>

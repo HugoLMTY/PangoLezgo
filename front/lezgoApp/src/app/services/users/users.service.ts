@@ -27,6 +27,6 @@ export class UsersService {
   }
 
   logout() {
-    this.wrs.get('user/logout')
+    return this.wrs.get('user/logout')
   }
 }
