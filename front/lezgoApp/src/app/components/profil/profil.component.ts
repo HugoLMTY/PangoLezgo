@@ -21,20 +21,22 @@ export class ProfilComponent implements OnInit {
           this.router.navigate(['/login']).then(() => {
             window.location.reload();
           });
-      }  
-    )
+    })
 
     this.userServices.getCurrentUserInfos().subscribe(
       (infos) => {
         this.user = infos
-      }
-    )
+    })
+  }
+
+  updateUser(formInfos: any) {
+    console.log(formInfos)
   }
 
   logout() {
     this.userServices.logout().subscribe()
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
-    });
+    })
   }
 }

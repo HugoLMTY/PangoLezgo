@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendsService } from 'src/app/services/friends/friends.service';
@@ -15,9 +16,6 @@ export class RequestComponent implements OnInit {
   friendList: any
   sentList: any
   receivedList: any
-  emptyFriends: any
-  emptyReceived: any
-  emptySent: any
   isAuth: any
   ngOnInit(): void {
 
@@ -32,37 +30,32 @@ export class RequestComponent implements OnInit {
     )
 
     this.friendServices.acceptedList().subscribe(
-      (result: any) => {
-        if (result == []) 
-          this.emptyFriends = true
-        else {
-          this.emptyFriends = false
-          this.friendList = result
-        }
-    })
+      (result: any) => this.friendList = result
+    )
 
     this.friendServices.receivedList().subscribe(
-      (result: any) => {
-        if (result == []) 
-          this.emptyReceived = true
-        else {
-          this.emptyReceived = false
-          this.receivedList = result
-        }
-    })
+      (result: any) => this.receivedList = result
+    )
 
     this.friendServices.sentList().subscribe(
-      (result: any) => {
-        if (result == []) 
-          this.emptySent = true
-        else {
-          this.emptySent = false
+      (result: any) => 
           this.sentList = result
-        }
-    })
+    )
   }
 
   removeFriend(target: any) {
-    console.log(target)
+    this.friendServices.deleteFriend(target).subscribe()
+  }
+
+  acceptInvite(target: any) {
+    this.friendServices.acceptInvite(target).subscribe()
+  }
+
+  rejectInvite(target: any) {
+    this.friendServices.rejectInvite(target).subscribe()
+  }
+
+  cancelInvite(target: any) {
+    this.friendServices.cancelInvite(target).subscribe()
   }
 }

@@ -9,6 +9,17 @@
         <span style="font-style: italic;">vous déconnecter</span>
     </p>
 
+    <div class="container d-flex justify-content-center">     
+        <form #updateForm="ngForm" (ngSubmit)="updateUser(updateForm.value)" class="w-50 justify-content-center">
+            <app-register-form></app-register-form>
+
+            <div class="col-12 row justify-content-center mx-auto mt-2">
+                <a class="btn btn-outline-secondary col-4 m-2" routerLink="/profil">Annuler</a>
+                <button class="btn btn-context col-4 m-2">Valider</button>
+            </div>
+        </form>
+    </div>
+
     <button class="btn btn-danger" (click)="logout()">
         Se déconnecter
     </button>

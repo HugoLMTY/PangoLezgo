@@ -1,14 +1,15 @@
 <div class="container row justify-content-center mx-auto">
-    <form #addFriendForm=ngForm  *ngFor="let user of userList" (ngSubmit)="addFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
+    <div *ngFor="let user of userList" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
+                <p class="userTitle"> {{ user.name }} <br> {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
                 <p class="userFeeding"> {{ user.feeding }} </p>
             </div>
-            <button class="userAdd btn btn-context">Ajouter</button>
+            <button (click)="addFriend(user._id)" onclick="this.classList.add('disabled')" class="userAdd btn btn-context">Ajouter</button>
         </div>
-    </form>
+    </div>
 </div>
+

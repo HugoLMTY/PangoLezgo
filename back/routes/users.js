@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const user = require('../models/user')
-const friend = require('../models/friends')
+const friends = require('../models/friends')
 const bcrypt = require('bcrypt')
 const friendRouter = require('./friends')
 
@@ -40,7 +40,7 @@ router.get('/currentUser', async (req, res) => {
 
 router.get('/countRequests', (req, res) => {
     try {
-        friend.find({ user2: _uid, state: 'sent'}).then(
+        friends.find({ user2: _uid, state: 'sent'}).then(
             (result) => res.send(result)
         )
     } catch {
@@ -87,33 +87,25 @@ router.post('/login', async (req, res) => {
 
 router.post('/createAccount', async (req, res) => {
     const r = req.body
-    if (!r.uname || !r.pwd || !r.name || !r.age ||  !r.family || !r.race || !r.feeding)
-        res.send('remplissez tous les champs')
 
     const hash = await bcrypt.hash(r.pwd, 10) 
     const userList = await user.find({uname: r.uname})
 
-
     if (userList != '')
         res.send('Pseudo déjà utilisé')
     else {
-        if (r.pwd !=  r.pwdConfirm)
-            res.send('Mots de passe différents')
-        else
-           {
-            new user({
-                uname: r.uname,
-                pwd: r.pwd,
-                name: r.name,
-                age: r.age,
-                family: r.family,
-                race: r.race,
-                feeding:  r.feeding
-            }).save().then( 
-                (newUser) => {
-                    res.send(newUser)
-            })
-        }
+        new user({
+            uname: r.uname,
+            pwd: r.pwd,
+            name: r.name,
+            age: r.age,
+            family: r.family,
+            race: r.race,
+            feeding:  r.feeding
+        }).save().then( 
+            (newUser) => {
+                res.send(newUser)
+        })
     }
 })
 
@@ -173,22 +165,28 @@ router.get('/logout', (req, res) => {
 
 
 
+// ------------------------------------------  NOTES  --------------------------------------------
+// Je n'ai pas réussi à faire fonctionner les cookies côté serveur, malgré le fonctionnement sur postman rien ne passe sur angular
+// J'ai du improviser et j'ai donc créé une variable 'uid' (user id) définie lors du login et vidée lors du logout
+// Le problème avec cette méthode était de transferer cette variable entre les routeur (apparement impossible)
+// J'ai fini par me concentrer sur d'autres soucis et continuer d'avancer, c'est pourquoi les actions du friendServices se trouvent ici
+
 
 router.get('/all', async (req, res) => {
     // const _uid = req.cookies['uid']
-    const acceptedList = await friend.find({
+    const acceptedList = await friends.find({
         user1: _uid,
         state: 'accepted'
     })
-    const _acceptedList = await friend.find({
+    const _acceptedList = await friends.find({
         user2: _uid,
         state: 'accepted'
     })
-    const sentList = await friend.find({ 
+    const sentList = await friends.find({ 
         user1: _uid,
         state: 'sent'
     })
-    const receivedList = await friend.find({ 
+    const receivedList = await friends.find({ 
         user2: _uid,
         state: 'sent'
     })
@@ -220,7 +218,7 @@ router.get('/all', async (req, res) => {
 router.get('/receivedList', async (req, res) => {
     let userListID = []
 
-    const receivedList = await friend.find({
+    const receivedList = await friends.find({
         user2: _uid,
         state: 'sent'
     })
@@ -241,7 +239,7 @@ router.get('/receivedList', async (req, res) => {
 router.get('/sentList', async (req, res) => {
     let userListID = []
 
-    const sentList = await friend.find({
+    const sentList = await friends.find({
         user1: _uid,
         state: 'sent'
     })
@@ -262,11 +260,11 @@ router.get('/sentList', async (req, res) => {
 router.get('/acceptedList', async (req, res) => {
     let userListID = []
     
-    const acceptedList = await friend.find({
+    const acceptedList = await friends.find({
         user1: _uid,
         state: 'accepted'
     })
-    const _acceptedList = await friend.find({
+    const _acceptedList = await friends.find({
         user2: _uid,
         state: 'accepted'
     })
@@ -288,40 +286,115 @@ router.get('/acceptedList', async (req, res) => {
 })
 
 
-// router.get('/acceptedList', async (req, res) => {
+router.post('/sendInvite', (req, res) => {
+    // const _uid = req.cookies['uid']
+    const targetID = req.body.targetID
+
+    const newRequest = new friends({
+        user1: _uid,
+        user2: targetID,
+        state: 'sent'
+    })
+    newRequest.save().then(
+        res.send('sent')
+    )
+})
+
+router.post('/acceptInvite', async (req, res) => {
+    // const _uid = req.cookies['uid']
+    const received = req.body.targetID
+
+    try  {
+        friends.findOneAndUpdate({
+
+            $or: [
+                {
+                    $and: [ {user2: _uid}, {user1: received} ]
+                }, 
+                {
+                    $and: [ {user1: _uid}, {user2: received} ]
+                }
+            ]}, {'state': 'accepted'})
+            .then(
+                res.send('ok')
+            )
+    } catch(e) {
+        console.log('err: ',e)
+    }
+})
+
+router.post('/rejectInvite', async (req, res) => {
+    // const _uid = req.cookies['uid']
+    const received = req.body.targetID
+
+    friends.findOneAndDelete({
+        $and: [
+            {user2: _uid},
+            {user1: received}
+        ]}).then(
+            res.send('ok')
+        )
+})
+
+router.post('/cancelInvite', (req, res) => {
+    // const _uid = req.cookies['uid']
+    const targetID = req.body.targetID
+
+    friends.findOneAndDelete({
+        user1: _uid,
+        user2: targetID,
+        state: 'sent'
+    }).then(
+        res.send('ok')
+    )
+})
+
+router.post('/deleteFriend', (req, res) => {
+    // const _uid = req.cookies['uid']
+    const targetID = req.body.targetID
+
+    friends.findOneAndDelete({
+        $or: [
+            {
+                user1: _uid,
+                user2: targetID
+            }, 
+            {
+                user1: targetID,
+                user2: _uid
+            }
+        ]
+    }).then(
+        res.send('ok')
+    )
+})
+
+
+
+// router.post('/answerInvite', async (req, res) => {
 //     // const _uid = req.cookies['uid']
+//     const action = req.body.userAction
+//     const received = req.body.receivedID
 
-//     try {
-//         const friendsAcceptedById = await friends.find({ user1: _uid, state: 'accepted' })
-//         const _friendsAcceptedById = await friends.find({ user2: _uid, state: 'accepted' })
-//     } catch {
-//         console.log('err')
-//     }
-    
-//     console.log(_uid)
-//     console.log(friendsAcceptedById)
-//     console.log(_friendsAcceptedById)
-
-//     let idAcceptedList = []
-//     friendsAcceptedById.forEach(element => {
-//         idAcceptedList.push(element.user2)
-//     });
-//     _friendsAcceptedById.forEach(element => {
-//         idAcceptedList.push(element.user1)
-//     });
-//     const userAcceptedList = await user.find({ _id: { $in: idAcceptedList } })
-    
-//     try {
-//         if (userAcceptedList.length < 1) 
-//             res.send({})
-//         else
-//             res.send(userAcceptedList)
-//     } catch {
-//         res.send({})
-//     }
+//     if (action == false) {
+//         friends.findOneAndDelete({
+//             $and: [
+//                 {user2: _uid},
+//                 {user1: received}
+//             ]}).then(
+//                 res.send('deleted')
+//             )
+//     } else {
+//         friends.findOneAndUpdate({
+//             $and: [
+//                 {user2: _uid},
+//                 {user1: received}
+//             ]}, { state: 'accepted' }).then(
+//                 (result) => {
+//                     res.send(result)
+//                 }
+//             )
+//         }
 // })
 
-
 module.exports = router
-
-

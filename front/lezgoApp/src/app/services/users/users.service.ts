@@ -27,7 +27,7 @@ export class UsersService {
   }
 
   register(name: string, uname: string, age: number, pwd: string, family: string, race: string, feeding: string) {
-    return this.wrs.post('user/register', {name, uname, age, pwd, family, race, feeding})
+    return this.wrs.post('user/createAccount', {name, uname, age, pwd, family, race, feeding})
   }
 
   all() {

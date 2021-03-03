@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(formInfos: any) {
+    console.log(formInfos)
     this.userServices.register(formInfos.name, formInfos.uname, formInfos.age, formInfos.pwd, formInfos.family, formInfos.race, formInfos.feeding).subscribe()
   }
 

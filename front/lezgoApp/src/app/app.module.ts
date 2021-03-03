@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { RequestComponent } from './components/request/request.component';
+import { RegisterFormComponent } from './forms/register-form/register-form.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { RequestComponent } from './components/request/request.component';
     RegisterComponent,
     ProfilComponent,
     UserlistComponent,
-    RequestComponent
+    RequestComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,

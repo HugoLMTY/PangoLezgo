@@ -152,7 +152,7 @@ router.get('/receivedList', async (req, res) => {
 
 router.get('/acceptedList', async (req, res) => {
     // const _uid = req.cookies['uid']
-    const _uid = userRouter._uid
+    // const _uid = userRouter._uid
 
     const friendsAcceptedById = await friends.find({ user1: _uid, state: 'accepted' })
     const _friendsAcceptedById = await friends.find({ user2: _uid, state: 'accepted' })

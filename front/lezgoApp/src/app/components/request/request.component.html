@@ -1,61 +1,64 @@
-<h1 class="title-context">Amis</h1>
+<h1 class="title-context mt-3">Amis</h1>
 
-<div *ngIf="!emptyFriends"  class="container row justify-content-center mx-auto">
-    <form #removeForm=ngForm *ngFor="let user of friendList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
+<div class="container row justify-content-center mx-auto">
+    <div *ngFor="let user of friendList" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
+                <p class="userTitle"> {{ user.name }} <br> {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
                 <p class="userFeeding"> {{ user.feeding }} </p>
             </div>
-            <button class="userAdd btn btn-danger">Supprimer</button>
+            <button (click)="removeFriend(user._id)" onclick="this.classList.add('disabled')" class="userAdd btn btn-danger">Supprimer</button>
         </div>
-    </form>
+    </div>
 </div>
-<p class="title-context" *ngIf="emptyFriends">
+<p class="span-context mb-2" *ngIf="friendList < 1">
     Aucun ami
 </p>
 
-<h1 class="title-context">Demandes reçues</h1>
+<h1 class="title-context mt-3">Demandes reçues</h1>
 
-<div *ngIf="!emptyReceived"  class="container row justify-content-center mx-auto">
-    <form #removeForm=ngForm *ngFor="let user of receivedList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
+<div class="container row justify-content-center mx-auto">
+    <div *ngFor="let user of receivedList" class="col-xl-2 col-sm-4 m-4 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
+                <p class="userTitle"> {{ user.name }} <br><br> {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
                 <p class="userFeeding"> {{ user.feeding }} </p>
             </div>
-            <button class="reqAdd btn btn-context">Ajouter</button>
-            <button class="reqDel btn btn-danger">Refuser</button>
+            
+            
+            <button (click)="acceptInvite(user._id)" onclick="this.classList.add('disabled')" class="reqAdd btn btn-context">Ajouter</button>
+            <button (click)="rejectInvite(user._id)" onclick="this.classList.add('disabled')" class="reqDel btn btn-danger">Refuser</button>
         </div>
-    </form>
+    </div>
 </div>
-<p class="title-context" *ngIf="emptyReceived">
+
+<p class="span-context mb-2" *ngIf="receivedList < 1">
     Aucune demande reçue
 </p>
 
 
-<h1 class="title-context">Demandes envoyées</h1>
+<h1 class="title-context mt-3">Demandes envoyées</h1>
 
-<div *ngIf="!emptySent"  class="container row justify-content-center mx-auto">
-    <form #removeForm=ngForm *ngFor="let user of sentList" (ngSubmit)="removeFriend(user._id)" class="col-xl-2 col-sm-4 m-4 userlistHolder">
+<div class="container row justify-content-center mx-auto">
+    <div *ngFor="let user of sentList" class="col-xl-2 col-sm-4 m-2 userlistHolder">
         <div class="userHolder m-4">
             <div class="userInfos">
-                <p class="userTitle"> {{ user.name }} - {{ user.age }} ans </p>
+                <p class="userTitle"> {{ user.name }} <br> {{ user.age }} ans </p>
                 <br>
                 <p class="userRace"> {{ user.race }} </p>
                 <p class="userFamily"> {{ user.family }} </p>
                 <p class="userFeeding"> {{ user.feeding }} </p>
             </div>
-            <button class="userAdd btn btn-danger">Annuler</button>
+            <button (click)="cancelInvite(user._id)" onclick="this.classList.add('disabled')" class="userAdd btn btn-danger">Annuler</button>
         </div>
-    </form>
+    </div>
 </div>
-<p class="title-context" *ngIf="emptySent">
+<p class="span-context mb-2" *ngIf="sentList < 1">
     Aucune demande envoyée
 </p>

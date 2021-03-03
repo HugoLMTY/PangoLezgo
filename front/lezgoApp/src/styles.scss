@@ -21,12 +21,86 @@ input[type=number] {
     color: black;
 }
 
-.tooltip-context{
+.span-context{
     color: gray;
-    font-size: 0.8em;
+    text-align: center;
+    font-size: 1.2em;
+    font-style: italic;
 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
     background: linear-gradient(90deg, #30c4fc, #66e0ff) !important;
     border: 0px;
+}
+
+
+
+
+.userHolder {
+    background-color: white;
+    border-radius: 5px;
+    height: 140px;
+    min-width: 170px;
+    padding: 10px;
+}
+
+.userTitle{
+    color: black;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.userInfos{
+    color: gray;
+    line-height: 0.8;
+}
+
+.userAdd{
+    text-align: center;
+    padding-top: 7px;
+
+    height: 35px;
+    width: 70%;
+
+    position: relative;
+    left: 50%;
+    top: -10%;
+
+    border-radius: 12px;
+}
+
+.reqAdd{
+    text-align: center;
+    padding-top: 7px;
+
+    height: 35px;
+    width: 50%;
+
+    position: relative;
+    left: 42%;
+    top: -10%;
+
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.reqDel{
+    text-align: center;
+    padding-top: 7px;
+
+    height: 35px;
+    width: 50%;
+
+    position: relative;
+    left: 42%;
+    top: -10%;
+
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
 }

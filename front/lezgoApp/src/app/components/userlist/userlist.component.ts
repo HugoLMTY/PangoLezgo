@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FriendsService } from 'src/app/services/friends/friends.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class UserlistComponent implements OnInit {
 
-  constructor(private userServices: UsersService, private router: Router) { }
+  constructor(private userServices: UsersService, private friendService: FriendsService, private router: Router) { }
 
   userList: any
   isAuth: any
@@ -32,7 +33,7 @@ export class UserlistComponent implements OnInit {
         this.userList = result
       })
   }
-  addFriend(formInfo: any) {
-    console.log(formInfo)
+  addFriend(target: any) {
+    this.friendService.sendInvite(target).subscribe()    
   }
 }
