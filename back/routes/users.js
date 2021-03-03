@@ -53,12 +53,19 @@ router.post('/login', async (req, res) => {
     let loginOptions = { uname: new RegExp(req.body.uname, 'i') } 
     const loginList = await user.findOne(loginOptions)
 
+    const resLogin = {
+        wrongUname: false,
+        wrongPwd: false
+    }
+
     try {
+
+        const hashCompare = await bcrypt.compare(req.body.pwd, loginList.pwd)
         if (!loginList) {
-            res.send({})
+            res.send(resLogin({wrongUname: true}))
         } else {
-            if (req.body.pwd != loginList.pwd){
-                res.send({})
+            if (!hashCompare){
+                res.send(resLogin({wrongPwd: true}))
             } else {
                 _uid = loginList._id
                 isAuth = true
@@ -96,7 +103,7 @@ router.post('/createAccount', async (req, res) => {
     else {
         new user({
             uname: r.uname,
-            pwd: r.pwd,
+            pwd: hash,
             name: r.name,
             age: r.age,
             family: r.family,
@@ -117,7 +124,7 @@ router.get('/profil', (req, res) => {
         })
 })
 
-router.patch('/editAccount', (req, res) => {
+router.post('/editAccount', (req, res) => {
     // const _uid = req.cookies['uid']
     const r = req.body
 
@@ -138,18 +145,14 @@ router.patch('/editAccount', (req, res) => {
 
 router.delete('/deleteAccount', (req, res) => {
     // const _uid = req.cookies['uid']
-    if (!_uid) 
-        res.send('renseignez tous les champs')
-    else {
-        const toDelete = user.findById(_uid)
+    const toDelete = user.findById(_uid)
 
-        if (toDelete == [])
-            res.send('ID erroné')    
-        else {
-            user.findOneAndDelete(toDelete._id).then(
-                res.send('suppr')
-            )
-        }
+    if (toDelete == [])
+        res.send('ID erroné')    
+    else {
+        user.findOneAndDelete(toDelete._id).then(
+            res.send('suppr')
+        )
     }
 })
 

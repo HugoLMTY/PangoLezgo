@@ -30,6 +30,10 @@ export class UsersService {
     return this.wrs.post('user/createAccount', {name, uname, age, pwd, family, race, feeding})
   }
 
+  editUser(name: string, age: number, family: string, race: string, feeding: string) {
+    return this.wrs.post('user/editAccount', {name, age, family, race, feeding})
+  }
+
   all() {
     return this.wrs.get('user/all')
   }

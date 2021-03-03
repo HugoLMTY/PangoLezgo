@@ -1,3 +1,4 @@
+import { collectExternalReferences } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -12,6 +13,7 @@ export class ProfilComponent implements OnInit {
   constructor(private userServices: UsersService, private router: Router) { }
 
   user: any
+  uname: any
 
   ngOnInit(): void {
 
@@ -24,13 +26,22 @@ export class ProfilComponent implements OnInit {
     })
 
     this.userServices.getCurrentUserInfos().subscribe(
-      (infos) => {
+      (infos: any) => {
         this.user = infos
+        this.uname = infos[0].uname
     })
   }
 
   updateUser(formInfos: any) {
-    console.log(formInfos)
+    const f = formInfos
+    this.userServices.editUser(
+      f.name, 
+      f.age, 
+      f.family, 
+      f.race, 
+      f.feeding).subscribe(
+        () => window.location.reload()
+      )
   }
 
   logout() {
@@ -38,5 +49,9 @@ export class ProfilComponent implements OnInit {
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     })
+  }
+
+  deleteAccount(targetID: any) {
+    console.log(targetID)
   }
 }

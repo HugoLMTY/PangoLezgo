@@ -23,17 +23,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(formInfos: any) {
-    if (formInfos.uname == "" || formInfos.pwd == "" ){
-      console.log('no')
-    } else {
       this.userServices.login(formInfos.uname, formInfos.pwd).subscribe(
         (result: any) => { 
           this.router.navigate(['/profil']).then(() => {
-            window.location.reload();
-          });
+            window.location.reload()
+          })
         }
       )
     }
   }
-
-}

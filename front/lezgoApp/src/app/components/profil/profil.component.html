@@ -9,18 +9,127 @@
         <span style="font-style: italic;">vous déconnecter</span>
     </p>
 
-    <div class="container d-flex justify-content-center">     
-        <form #updateForm="ngForm" (ngSubmit)="updateUser(updateForm.value)" class="w-50 justify-content-center">
-            <app-register-form></app-register-form>
-
-            <div class="col-12 row justify-content-center mx-auto mt-2">
-                <a class="btn btn-outline-secondary col-4 m-2" routerLink="/profil">Annuler</a>
-                <button class="btn btn-context col-4 m-2">Valider</button>
+    <div class="row container d-flex justify-content-center">     
+        <form #updateForm="ngForm" (ngSubmit)="updateUser(updateForm.value)" class="row col-10 w-50 justify-content-center" autocomplete="off">
+            <div class="form-floating col-6 mt-1 mb-2">
+                <input type="text" class="form-control" 
+                required
+                ngModel 
+                name="name" #name="ngModel"
+                placeholder="Votre nom">    
+                <label for="registerName">Nom</label>
+                <label *ngIf="name.errors && name.touched" 
+                style="color: red;" 
+                for="registerName">Nom</label>
+            </div>
+        
+            <div class="form-floating col-3 mt-1 mb-2">
+                <input type="number" class="form-control" 
+                required
+                ngModel 
+                name="age" #age="ngModel"
+                placeholder="Age">
+                <label for="registerAge">Age</label>
+            </div>            
+        
+            <div class="col-12">
+            </div>
+        
+            <div class="form-floating col-3 mt-1 mb-2">
+                <input type="text" class="form-control" 
+                required
+                ngModel 
+                name="family" #family="ngModel"
+                placeholder="Famille">
+                <label for="registerFamily">Famille</label>
+                <label *ngIf="family.errors && family.touched" 
+                style="color: red;" 
+                for="registerFamily">Famille</label>
+            </div>
+        
+            <div class="form-floating col-3 mt-1 mb-2">
+                <input type="text" class="form-control" 
+                required
+                ngModel 
+                name="race" #race="ngModel"
+                placeholder="Race">
+                <label for="registerRace">Race</label>
+                <label *ngIf="race.errors && race.touched" 
+                style="color: red;" 
+                for="inputPwdConfirm">Race</label>
+            </div>
+        
+            <div class="form-floating col-3 mt-1 mb-2">
+                <input type="text" class="form-control" 
+                required
+                ngModel 
+                name="feeding" #feeding="ngModel"
+                placeholder="Alimentation">
+                <label for="registerFeeding">Alimentation</label>
+                <label *ngIf="feeding.errors && feeding.touched" 
+                style="color: red;" 
+                for="registerFeeding">Alimentation</label>
+            </div>
+            
+            <div class="row col-10 justify-content-center mx-auto mt-2">
+                <button *ngIf="updateForm.valid" class="btn btn-context col-4 m-2">Valider</button>
+                <button *ngIf="!updateForm.valid" disabled class="btn btn-context col-4 m-2">Valider</button>
             </div>
         </form>
     </div>
+    <div class="row w-25">
+        <button class="col btn btn-danger m-2" (click)="logout()">
+            Se déconnecter
+        </button>
+        <button class="col btn btn-outline-danger m-2" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+            Supprimer le compte
+        </button>
+    </div>
 
-    <button class="btn btn-danger" (click)="logout()">
-        Se déconnecter
-    </button>
-</div>
+
+
+
+    <!-- ----------------------  DELETE ACCOUNT MODAL   --------------------------- -->
+
+    <script>
+        function checkPattern() {
+            if (this.val() == user.uname )
+                document.getElementById('deleteFinalBtn').classList.remove('disabled')
+        }
+    </script>
+
+
+
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteModalTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: black; font-size: 1.3em;" id="deleteModalTitle">
+                        Confirmer la suppression du compte
+                    </h5>
+                    <hr class="my-4">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>                
+                </div>
+                <div class="modal-body">
+                    <p style="color: black;">
+                        Rentrez votre nom de compte avant de pouvoir le supprimer (<span style="font-weight: bold;">{{ uname }}</span>).
+                    </p>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" required onkeyup="checkPattern()">
+                            <label style="color: black;" for="deleteCaptcha">Nom de compte</label>  
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" id="deleteFinalBtn" class="btn btn-danger disabled">Supprimer le compte</button>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        
+    
+        
+        
+    </div>
+
