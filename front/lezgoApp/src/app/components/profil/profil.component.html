@@ -30,6 +30,9 @@
                 name="age" #age="ngModel"
                 placeholder="Age">
                 <label for="registerAge">Age</label>
+                <label *ngIf="age.errors && age.touched" 
+                style="color: red;" 
+                for="registerName">Age</label>
             </div>            
         
             <div class="col-12">

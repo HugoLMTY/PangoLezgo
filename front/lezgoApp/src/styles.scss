@@ -7,9 +7,13 @@ input[type=number] {
     -moz-appearance:textfield;
 }
 
-
+//------------------------------------------ <ctx> --------------------
 .btn-context {
     background: linear-gradient(90deg, #80dfff, #33ccff) !important;
+}
+
+.btn-context:hover {
+    background: linear-gradient(90deg, #7ad2f0, #31bbe9) !important;
 }
 
 .title-context{
@@ -33,16 +37,51 @@ input[type=number] {
     border: 0px;
 }
 
+.form-floating input{
+    background: #1a1a1a;
+    border: gray;
+    color: white
+}
+
+.form-floating:placeholder-shown input{
+    background: gray;
+}
+
+.form-floating label{
+    color: white
+}
+
+//------------------------------------------ </ctx> --------------------
+
+//------------------------------------------ <general> --------------------
+
+.navbar-brand{
+    text-shadow: 1px 1px 15px #80dfff;
+}
+
+//------------------------------------------ </general> --------------------
 
 
+//------------------------------------------ <cards> --------------------
 
 .userHolder {
-    background-color: white;
+    background: white;
+    box-shadow: 1px 1px 20px #43defa;
     border-radius: 5px;
     height: 140px;
     min-width: 170px;
     padding: 10px;
+    transition: 0.5s;
 }
+
+.userHolder:hover {
+    box-shadow: 1px 1px 50px #43defa;
+}
+
+// .userHolder:hover .userAdd, .userHolder:hover .reqDel, .userHolder:hover .reqAdd{
+//     transform: scale(1);
+//     left: 20%;
+// }
 
 .userTitle{
     color: black;
@@ -69,9 +108,10 @@ input[type=number] {
     top: -10%;
 
     border-radius: 12px;
+    transition: 0.15s;
 }
 
-.reqAdd{
+.reqAdd, .reqDel{
     text-align: center;
     padding-top: 7px;
 
@@ -80,7 +120,11 @@ input[type=number] {
 
     position: relative;
     left: 42%;
-    top: -10%;
+    top: -20%;
+    transition: 0.15s;
+}
+
+.reqAdd{
 
     border-bottom-left-radius: 12px;
     border-top-left-radius: 12px;
@@ -89,20 +133,10 @@ input[type=number] {
 }
 
 .reqDel{
-    text-align: center;
-    padding-top: 7px;
-
-    height: 35px;
-    width: 50%;
-
-    position: relative;
-    left: 42%;
-    top: -10%;
-
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//------------------------------------------ </cards> --------------------
