@@ -13,7 +13,6 @@ export class ProfilComponent implements OnInit {
   constructor(private userServices: UsersService, private router: Router) { }
 
   user: any
-  uname: any
 
   ngOnInit(): void {
 
@@ -21,14 +20,13 @@ export class ProfilComponent implements OnInit {
       (state) => {
         if (!state)
           this.router.navigate(['/login']).then(() => {
-            window.location.reload();
+            window.location.reload()
           });
     })
 
     this.userServices.getCurrentUserInfos().subscribe(
       (infos: any) => {
         this.user = infos
-        this.uname = infos[0].uname
     })
   }
 
@@ -47,11 +45,14 @@ export class ProfilComponent implements OnInit {
   logout() {
     this.userServices.logout().subscribe()
     this.router.navigate(['/login']).then(() => {
-      window.location.reload();
+      window.location.reload()
     })
   }
 
-  deleteAccount(targetID: any) {
-    console.log(targetID)
+  deleteAccount() {
+    this.userServices.deleteAccount().subscribe()
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload()
+    })
   }
 }

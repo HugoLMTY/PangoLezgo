@@ -41,4 +41,8 @@ export class UsersService {
   logout() {
     return this.wrs.get('user/logout')
   }
+
+  deleteAccount() {
+    return this.wrs.get('user/deleteAccount')
+  }
 }

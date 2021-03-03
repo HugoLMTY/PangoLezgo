@@ -143,16 +143,16 @@ router.post('/editAccount', (req, res) => {
     )
 })
 
-router.delete('/deleteAccount', (req, res) => {
+router.get('/deleteAccount', async (req, res) => {
     // const _uid = req.cookies['uid']
-    const toDelete = user.findById(_uid)
-
-    if (toDelete == [])
-        res.send('ID erroné')    
-    else {
-        user.findOneAndDelete(toDelete._id).then(
-            res.send('suppr')
-        )
+    const toDelete = await user.findById(_uid)
+    try {
+        await user.findByIdAndDelete(toDelete._id)
+        isAuth = false
+        _uid = new String("")
+    } catch(e) {
+        console.log(e)
+        res.send({'err': true})
     }
 })
 
