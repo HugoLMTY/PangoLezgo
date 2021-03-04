@@ -67,6 +67,9 @@ router.post('/login', async (req, res) => {
             if (!hashCompare){
                 res.send(resLogin({wrongPwd: true}))
             } else {
+                if (loginList.exist = false)
+                    await user.findOneAndUpdate(loginList), {exist: true}
+
                 _uid = loginList._id
                 isAuth = true
                 res.send(loginList)
@@ -97,6 +100,15 @@ router.post('/createAccount', async (req, res) => {
 
     const hash = await bcrypt.hash(r.pwd, 10) 
     const userList = await user.find({uname: r.uname})
+
+    const userExists = await user.find({
+        uname: r.uname,
+        exist: false
+    })
+
+    if (userExists) {
+        user.findAndUpdate(userExists), {exist: true}
+    }
 
     if (userList != '')
         res.send('Pseudo déjà utilisé')
@@ -399,5 +411,45 @@ router.post('/deleteFriend', (req, res) => {
 //             )
 //         }
 // })
+
+
+router.post('/createFriendAccount', async (req, res) => {
+    const r = req.body
+    const hash = await bcrypt.hash(r.pwd, 10) 
+
+    const checkUser = await user.find({ uname : r.uname})
+    
+    console.log(checkUser)
+
+    if (checkUser.length < 1) {
+        try {
+            new user({
+                uname: r.uname,
+                pwd: hash,
+                name: r.name,
+                age: r.age,
+                family: r.family,
+                race: r.race,
+                feeding:  r.feeding,
+                exist: false
+            }).save().then(
+                (result) => {
+                    new friends({
+                        user1: _uid,
+                        user2: result._id,
+                        state: 'accepted'
+                    }).save().then(
+                        res.send(true)
+                    )
+            })
+        } catch(e) {
+            // console.log(e)
+            res.send(e)
+        }
+    } else {
+        res.send(false)
+    }
+})
+
 
 module.exports = router

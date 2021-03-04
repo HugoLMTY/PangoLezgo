@@ -30,6 +30,10 @@ export class UsersService {
     return this.wrs.post('user/createAccount', {name, uname, age, pwd, family, race, feeding})
   }
 
+  registerFriend(name: string, uname: string, age: number, pwd: string, family: string, race: string, feeding: string) {
+    return this.wrs.post('user/createFriendAccount', {name, uname, age, pwd, family, race, feeding})
+  }
+
   editUser(name: string, age: number, family: string, race: string, feeding: string) {
     return this.wrs.post('user/editAccount', {name, age, family, race, feeding})
   }
