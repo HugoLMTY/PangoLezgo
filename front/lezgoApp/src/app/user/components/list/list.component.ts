@@ -4,11 +4,11 @@ import { FriendsService } from 'src/app/services/friends/friends.service';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
-  selector: 'app-userlist',
-  templateUrl: './userlist.component.html',
-  styleUrls: ['./userlist.component.scss']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-export class UserlistComponent implements OnInit {
+export class ListComponent implements OnInit {
 
   constructor(private userServices: UsersService, private friendService: FriendsService, private router: Router) { }
 

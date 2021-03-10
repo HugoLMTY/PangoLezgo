@@ -10,7 +10,7 @@
     </p>
 
     <div class="row container d-flex justify-content-center">     
-        <form #updateForm="ngForm" (ngSubmit)="updateUser(updateForm.value)" class="row col-10 w-50 justify-content-center" autocomplete="off">
+        <!-- <form #updateForm="ngForm" (ngSubmit)="updateUser(updateForm.value)" class="row col-10 w-50 justify-content-center" autocomplete="off">
             <div class="form-floating col-6 mt-1 mb-2">
                 <input type="text" class="form-control" 
                 required
@@ -78,7 +78,7 @@
                 <button *ngIf="updateForm.valid" class="btn btn-context col-4 m-2">Valider</button>
                 <button *ngIf="!updateForm.valid" disabled class="btn btn-context col-4 m-2">Valider</button>
             </div>
-        </form>
+        </form> -->
     </div>
     <div class="row w-25">
         <button class="col btn btn-danger m-2" (click)="logout()">
@@ -117,9 +117,5 @@
                 </div>
             </div>
         </div>
-        
-    
-        
-        
     </div>
 

@@ -8,14 +8,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { ProfilComponent } from './components/profil/profil.component';
 import { FormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
-import { UserlistComponent } from './components/userlist/userlist.component';
 import { RequestComponent } from './components/request/request.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { AddNFriendComponent } from './components/add-nfriend/add-nfriend.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserComponent } from './user/user.component';
+import { UserModule } from './user/user.module';
+
 
 
 @NgModule({
@@ -23,11 +25,10 @@ import { AddNFriendComponent } from './components/add-nfriend/add-nfriend.compon
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ProfilComponent,
-    UserlistComponent,
     RequestComponent,
     RegisterFormComponent,
-    AddNFriendComponent
+    AddNFriendComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,8 @@ import { AddNFriendComponent } from './components/add-nfriend/add-nfriend.compon
     BrowserAnimationsModule,
     HttpClientModule,
     MatToolbarModule,
-    FormsModule
+    FormsModule,
+    UserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

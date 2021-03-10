@@ -1,6 +1,5 @@
-import { collectExternalReferences } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
@@ -55,4 +54,5 @@ export class ProfilComponent implements OnInit {
       window.location.reload()
     })
   }
+
 }
