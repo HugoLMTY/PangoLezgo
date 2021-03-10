@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendsService } from 'src/app/services/friends/friends.service';
 import { UsersService } from 'src/app/services/users/users.service';
+import { userInterface } from '../../interfaces/user'
 
 @Component({
   selector: 'app-list',
@@ -10,11 +11,14 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class ListComponent implements OnInit {
 
+  
   constructor(private userServices: UsersService, private friendService: FriendsService, private router: Router) { }
-
-  userList: any
+  user: any
+  userList: any = []
   isAuth: any
   ngOnInit(): void {
+
+    
 
     this.userServices.getAuthState().subscribe(
       (state) => {
@@ -29,11 +33,27 @@ export class ListComponent implements OnInit {
     this.userServices.countRequests().subscribe()
 
     this.userServices.all().subscribe(
-      (result) => {
-        this.userList = result
+      (result: any) => {
+        result.forEach((element: any) => {
+          this.getUserInfos(element)
+        });
       })
   }
   addFriend(target: any) {
     this.friendService.sendInvite(target).subscribe()    
+  }
+
+  getUserInfos(userInfos: any) {
+    
+    const user:userInterface = {
+      uname: userInfos.uname,
+      name: userInfos.name,
+      pwd: userInfos.pwd,
+      age: userInfos.age,
+      family: userInfos.family,
+      race: userInfos.race,
+      feeding: userInfos.feeding 
+    }
+    this.userList.push(user)
   }
 }
