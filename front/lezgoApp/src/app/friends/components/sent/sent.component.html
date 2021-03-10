@@ -1,0 +1,17 @@
+<div class="container row justify-content-center mx-auto">
+    <div *ngFor="let user of sentList" class="col-xl-2 col-sm-4 m-2 userlistHolder">
+        <div class="userHolder m-4">
+            <div class="userInfos">
+                <p class="userTitle"> {{ user.name }} <br> {{ user.age }} ans </p>
+                <br>
+                <p class="userRace"> {{ user.race }} </p>
+                <p class="userFamily"> {{ user.family }} </p>
+                <p class="userFeeding"> {{ user.feeding }} </p>
+            </div>
+            <button (click)="cancelInvite(user._id)" onclick="this.classList.add('disabled')" class="userAdd btn btn-danger">Annuler</button>
+        </div>
+    </div>
+</div>
+<p class="span-context mb-2" *ngIf="sentList < 1">
+    Aucune demande envoyée
+</p>

@@ -10,7 +10,7 @@
           <a class="nav-link active" *ngIf='isAuth' routerLink='/lazyUser/list'>Pangolins</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf='isAuth' routerLink='/request'>Amis <span *ngIf="receivedCount > 0" style="color: black;" class="badge btn-context"> {{ receivedCount }} </span></a>
+          <a class="nav-link" *ngIf='isAuth' routerLink='/lazyFriends'>Amis <span *ngIf="receivedCount > 0" style="color: black;" class="badge btn-context"> {{ receivedCount }} </span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf='isAuth' routerLink='/lazyUser/profil'>Profil</a>

@@ -1,4 +1,5 @@
 export interface userInterface {
+    _id: string,
     uname: string,
     name: string,
     pwd: string,

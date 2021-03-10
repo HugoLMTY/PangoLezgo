@@ -11,13 +11,12 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
-import { RequestComponent } from './components/request/request.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { AddNFriendComponent } from './components/add-nfriend/add-nfriend.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { UserComponent } from './user/user.component';
-import { UserModule } from './user/user.module';
 
+import { UserModule } from './user/user.module';
+import { FriendsModule } from './friends/friends.module';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { UserModule } from './user/user.module';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    RequestComponent,
     RegisterFormComponent,
     AddNFriendComponent,
     NotFoundComponent,
@@ -38,7 +36,8 @@ import { UserModule } from './user/user.module';
     HttpClientModule,
     MatToolbarModule,
     FormsModule,
-    UserModule
+    UserModule,
+    FriendsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

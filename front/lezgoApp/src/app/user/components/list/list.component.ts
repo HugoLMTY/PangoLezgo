@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendsService } from 'src/app/services/friends/friends.service';
 import { UsersService } from 'src/app/services/users/users.service';
-import { userInterface } from '../../interfaces/user'
+import { userInterface } from '../../../interfaces/user'
 
 @Component({
   selector: 'app-list',
@@ -46,6 +46,7 @@ export class ListComponent implements OnInit {
   getUserInfos(userInfos: any) {
     
     const user:userInterface = {
+      _id: userInfos._id,
       uname: userInfos.uname,
       name: userInfos.name,
       pwd: userInfos.pwd,

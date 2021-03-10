@@ -2,20 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ProfilComponent } from './components/profil/profil.component';
-import { MainComponent } from './components/main/main.component';
 import { ListComponent } from './components/list/list.component';
+import { MainComponent } from './components/main/main.component';
+import { ProfilComponent } from './components/profil/profil.component';
+import { FriendsRoutingModule } from '../friends/friends-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    FriendsRoutingModule
   ],
   declarations: [
-    NotFoundComponent, 
     ProfilComponent, 
     MainComponent, 
-    ListComponent]
+    ListComponent
+  ]
 })
 export class UserModule { }
