@@ -17,6 +17,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 
 import { UserModule } from './user/user.module';
 import { FriendsModule } from './friends/friends.module';
+import { BlogModule } from './blog/blog.module';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { FriendsModule } from './friends/friends.module';
     MatToolbarModule,
     FormsModule,
     UserModule,
-    FriendsModule
+    FriendsModule,
+    BlogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
